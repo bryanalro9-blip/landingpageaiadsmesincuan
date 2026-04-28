@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AI Video Iklan : Mesin Cuan — Egar Masagi</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          heading: ["'Instrument Serif'", "serif"],
+          display: ["'Barlow Condensed'", "'Barlow'", "sans-serif"],
+          body: ["'Barlow'", "sans-serif"],
+        },
+        colors: {
+          lime: {
+            400: "#C6FF3D",
+            500: "#B6F33B",
+          },
+          ink: {
+            900: "#050607",
+            800: "#0B0D10",
+            700: "#12151A",
+          }
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  :root {
+    --bg: #050607;
+    --panel: #0B0D10;
+    --lime: #C6FF3D;
+    --lime-2: #9FE01F;
+    --line: rgba(255,255,255,0.08);
+  }
+
+  html, body { background: var(--bg); color: #fff; }
+  body { font-family: 'Barlow', sans-serif; -webkit-font-smoothing: antialiased; }
+
+  .font-heading { font-family: 'Instrument Serif', serif; }
+  .font-display { font-family: 'Barlow Condensed', 'Barlow', sans-serif; font-stretch: condensed; }
+  .font-body { font-family: 'Barlow', sans-serif; }
+
+  .text-lime { color: var(--lime); }
+  .bg-lime { background-color: var(--lime); }
+  .bg-lime-2 { background-color: var(--lime-2); }
+  .border-lime { border-color: var(--lime); }
+
+  /* Hero gradient + neon glow */
+  .hero-bg {
+    background:
+      radial-gradient(65% 55% at 70% 50%, rgba(198, 255, 61, 0.12) 0%, rgba(198, 255, 61, 0.04) 35%, transparent 70%),
+      radial-gradient(80% 60% at 50% 120%, rgba(198, 255, 61, 0.08) 0%, transparent 60%),
+      linear-gradient(180deg, #0a0b0c 0%, #050607 100%);
+  }
+
+  .section-bg {
+    background:
+      radial-gradient(60% 40% at 50% 0%, rgba(198, 255, 61, 0.05) 0%, transparent 60%),
+      #050607;
+  }
+
+  /* Glow lime */
+  .lime-glow {
+    text-shadow:
+      0 0 24px rgba(198, 255, 61, 0.45),
+      0 0 60px rgba(198, 255, 61, 0.15);
+  }
+  .lime-button-glow {
+    box-shadow: 0 0 0 1px rgba(198,255,61,0.5), 0 6px 30px -8px rgba(198,255,61,0.55);
+  }
+
+  /* Thin divider rule (like cover) */
+  .rule-lime {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--lime) 10%, var(--lime) 90%, transparent 100%);
+  }
+
+  /* Ticker */
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker 40s linear infinite;
+  }
+
+  /* Product-tile placeholder (editorial stripes on lime) */
+  .tile-lime {
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.10) 0 6px, transparent 6px 22px),
+      var(--lime);
+  }
+  .tile-dark {
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 10px),
+      linear-gradient(180deg, #121419, #0a0c10);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* Liquid glass kept subtle */
+  .glass {
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* Entry animation */
+  @keyframes blurIn {
+    from { opacity: 0; filter: blur(12px); transform: translateY(24px); }
+    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+  .blur-in { opacity: 0; animation: blurIn 0.7s ease-out forwards; }
+
+  @keyframes floatLoop {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(1deg); }
+  }
+  .float-a { animation: floatLoop 5.5s ease-in-out infinite; }
+  .float-b { animation: floatLoop 7s ease-in-out infinite 0.8s; }
+  .float-c { animation: floatLoop 6.2s ease-in-out infinite 1.6s; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
+
+  /* Grainy overlay */
+  .grain::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-radial-gradient(circle at 0 0, rgba(255,255,255,0.015) 0 1px, transparent 1px 3px);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  /* Italic display fake (like "Paho AI" on cover) */
+  .script-serif { font-family: 'Instrument Serif', serif; font-style: italic; }
+
+  /* Marquee accent underline for nav */
+  .nav-underline {
+    background: linear-gradient(90deg, rgba(198,255,61,0) 0%, var(--lime) 15%, var(--lime) 85%, rgba(198,255,61,0) 100%);
+    height: 1px;
+  }
+</style>
+</head>
+<body class="bg-ink-900">
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" data-presets="env,react">
+
+const { useEffect, useRef, useState } = React;
+
+// ─── Icons ────────────────────────────────────────────────────────────────
+const Svg = ({ children, size = 18, stroke = 1.75, className = '' }) =>
+<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
+fill="none" stroke="currentColor" strokeWidth={stroke}
+strokeLinecap="round" strokeLinejoin="round" className={className}>{children}</svg>;
+
+const ArrowUpRight = (p) => <Svg {...p}><line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" /></Svg>;
+const ArrowRight = (p) => <Svg {...p}><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></Svg>;
+const Play = (p) => <Svg {...p}><polygon points="6 3 20 12 6 21 6 3" fill="currentColor" stroke="none" /></Svg>;
+const Check = (p) => <Svg {...p}><polyline points="20 6 9 17 4 12" /></Svg>;
+const Instagram = (p) => <Svg {...p}><rect x="2" y="2" width="20" height="20" rx="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></Svg>;
+const Facebook = (p) => <Svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></Svg>;
+const TikTok = (p) => <Svg {...p}><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" /></Svg>;
+const Youtube = (p) => <Svg {...p}><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" /><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" /></Svg>;
+const Sparkles = (p) => <Svg {...p}><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8" /></Svg>;
+
+// ─── Brand mark (small) ──────────────────────────────────────────────────
+const AragiMark = () =>
+<div className="flex items-center gap-2">
+    <svg width="18" height="22" viewBox="0 0 18 22" fill="none">
+      <path d="M9 1 L17 11 L9 21 L1 11 Z" stroke="white" strokeWidth="1.2" fill="none" />
+      <path d="M9 5 L13 11 L9 17 L5 11 Z" fill="white" />
+    </svg>
+    <div className="leading-tight">
+      <div className="text-white text-[11px] font-body font-semibold tracking-wide">Aragi</div>
+      <div className="text-white/70 text-[10px] font-body -mt-0.5">Creative</div>
+    </div>
+  </div>;
+
+
+// ─── Navbar ──────────────────────────────────────────────────────────────
+function Navbar() {
+  const links = [
+  { t: 'Ubah', a: '#' },
+  { t: 'PROMPT', a: '#', italic: true },
+  { t: 'jadi', a: '#' },
+  { t: 'Profit', a: '#' }];
+
+  return (
+    <header className="relative z-40 px-6 md:px-10 pt-6 md:pt-8">
+      <div className="flex items-start justify-between">
+        <div>
+          <div className="text-white/70 text-[11px] font-body leading-tight">Made by</div>
+          <div className="text-white font-body font-semibold text-sm leading-tight">Egar Masagi</div>
+        </div>
+        <AragiMark />
+      </div>
+
+      <div className="mt-5 md:mt-7 flex items-center gap-6">
+        <div className="flex items-baseline gap-2">
+          <span className="text-lime font-display font-extrabold italic text-xl md:text-2xl tracking-tight">Video Iklan</span>
+          <span className="script-serif text-white text-xl md:text-2xl">Paho AI</span>
+        </div>
+
+        <div className="flex-1 nav-underline" />
+
+        <nav className="flex items-center gap-5 md:gap-7">
+          {links.map((l, i) =>
+          <a key={i} href={l.a}
+          className={`text-white/90 hover:text-lime transition-colors text-xs md:text-sm font-body tracking-wide ${l.italic ? 'script-serif italic text-[15px] text-lime' : ''}`}>
+              {l.t}
+            </a>
+          )}
+        </nav>
+      </div>
+    </header>);
+
+}
+
+// ─── Hero ────────────────────────────────────────────────────────────────
+function Hero() {
+  return (
+    <section data-screen-label="01 Hero" className="relative hero-bg overflow-hidden grain">
+      <Navbar />
+
+      <div className="relative z-10 px-6 md:px-10 pt-10 md:pt-16 pb-10">
+        <div className="grid grid-cols-12 gap-6 md:gap-10 items-start">
+
+          {/* Left: big title */}
+          <div className="col-span-12 lg:col-span-7">
+            <h1 className="blur-in font-display font-black italic text-white leading-[0.88] tracking-tight"
+            style={{ fontSize: 'clamp(56px, 9vw, 140px)' }}>
+              <span className="block lime-glow text-lime">AI VIDEO IKLAN<span className="text-white">:</span></span>
+              <span className="block lime-glow text-lime">MESIN CUAN</span>
+            </h1>
+
+            <div className="blur-in mt-7 max-w-md" style={{ animationDelay: '0.25s' }}>
+              <p className="text-white/80 font-body font-light text-[15px] leading-snug">
+                Apa jadinya kalo kamu bisa bikin <span className="font-semibold text-white">IKLAN VIDEO Profesional</span> dalam waktu <span className="text-lime font-semibold">20 menit</span>, tanpa kamera & tanpa budget besar.
+              </p>
+              <p className="mt-3 text-white/70 font-body font-light text-[15px] leading-snug">
+                e-Book ini akan menuntunmu <span className="italic">step-by-step</span> dengan bahasa yang mudah dimengerti.
+              </p>
+
+              <div className="mt-4 script-serif text-lime text-2xl">Egar Masagi</div>
+            </div>
+
+            <div className="blur-in mt-10 flex flex-wrap items-center gap-4" style={{ animationDelay: '0.5s' }}>
+              <a href="https://lynk.id/egarmasagi?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" className="lime-button-glow inline-flex items-center gap-2 bg-lime text-ink-900 font-display font-extrabold uppercase tracking-wide text-sm md:text-base rounded-full px-6 py-3 whitespace-nowrap hover:brightness-110 transition">
+                Dapatkan e-Book <ArrowUpRight size={16} />
+              </a>
+              <a href="#" className="inline-flex items-center gap-2 text-white/90 hover:text-white font-body font-medium text-sm whitespace-nowrap">
+                <span className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center">
+                  <Play size={12} />
+                </span>
+                Tonton trailer 90 detik
+              </a>
+            </div>
+
+            {/* Micro stats */}
+            <div className="blur-in mt-10 flex flex-wrap gap-x-10 gap-y-4 text-white/80" style={{ animationDelay: '0.7s' }}>
+              {[
+              ['12.500+', 'murid aktif'],
+              ['4.9 / 5', 'rating'],
+              ['20 menit', 'per video']].
+              map(([v, l]) =>
+              <div key={l}>
+                  <div className="font-display font-extrabold italic text-2xl text-white">{v}</div>
+                  <div className="text-[11px] uppercase tracking-[0.2em] text-white/50 font-body">{l}</div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right: cart poster */}
+          <div className="col-span-12 lg:col-span-5">
+            <div className="blur-in relative" style={{ animationDelay: '0.35s' }}>
+              <div className="absolute -inset-6 rounded-[36px]" style={{ background: 'radial-gradient(60% 50% at 50% 50%, rgba(198,255,61,0.25), transparent 65%)', filter: 'blur(30px)' }} />
+              <div className="relative rounded-[28px] overflow-hidden border border-white/10" style={{ aspectRatio: '4 / 5' }}>
+                <video
+                  src="seedance-video.mp4"
+                  autoPlay loop muted playsInline
+                  className="w-full h-full block object-cover" style={{ padding: "0px" }} />
+                
+              </div>
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-white/40 font-body">
+                · edisi 2026 ·
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Ticker bar */}
+      <div className="relative z-10 mt-12 border-y border-white/10 bg-black/40 py-4 overflow-hidden">
+        <div className="ticker-track gap-12 px-6">
+          {Array.from({ length: 2 }).flatMap(() =>
+          ['Prompt → Video', 'Tanpa kamera', 'Tanpa kru', 'Render 4K', 'AI Voiceover', 'Hook yang nempel', 'Auto caption', 'Template siap pakai']
+          ).map((t, i) =>
+          <span key={i} className="inline-flex items-center gap-3 text-white/80 font-display italic font-bold text-xl tracking-wide whitespace-nowrap">
+              <span className="text-lime">◆</span> {t}
+            </span>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ─── Value props strip ───────────────────────────────────────────────────
+function ValueStrip() {
+  const items = [
+  { k: '01', t: 'Prompt dulu, render kemudian', b: 'Cukup deskripsikan produkmu. AI menyusun naskah, visual, dan pacing iklan.' },
+  { k: '02', t: 'Tanpa kamera, tanpa kru', b: 'Semua asset dibuat digital. Cocok buat solo founder & tim kecil.' },
+  { k: '03', t: 'Siap posting 20 menit', b: 'Template rasio vertikal & horizontal untuk TikTok, Reels, YouTube, Shopee.' }];
+
+  return (
+    <section className="section-bg relative px-6 md:px-10 py-24 md:py-32 border-t border-white/5">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-end justify-between gap-8 flex-wrap">
+          <h2 className="font-display font-black italic text-white text-4xl md:text-6xl leading-[0.9] max-w-2xl">
+            3 langkah. <span className="text-lime">Nol drama.</span>
+          </h2>
+          <p className="text-white/60 font-body text-sm max-w-sm">
+            Framework yang sama dipakai Egar buat scaling campaign client retail, F&B, dan D2C di 2025.
+          </p>
+        </div>
+
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-5">
+          {items.map((it) =>
+          <div key={it.k} className="relative rounded-2xl border border-white/10 bg-ink-800/60 p-6 overflow-hidden">
+              <div className="absolute top-4 right-5 font-display font-black italic text-6xl text-lime/15 leading-none select-none">{it.k}</div>
+              <div className="relative z-10">
+                <div className="w-9 h-9 rounded-full bg-lime text-ink-900 flex items-center justify-center font-display font-black italic">{it.k}</div>
+                <h3 className="mt-5 font-display font-black italic text-white text-2xl leading-tight">{it.t}</h3>
+                <p className="mt-2 text-white/60 font-body font-light text-sm leading-relaxed">{it.b}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ─── Prompt → Profit showcase ───────────────────────────────────────────
+function PromptToProfit() {
+  return (
+    <section data-screen-label="03 Ubah Prompt Jadi Profit" className="relative section-bg px-6 md:px-10 py-24 md:py-32 border-t border-white/5">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center">
+          <span className="inline-block text-[11px] uppercase tracking-[0.28em] text-lime font-body font-semibold">// Workflow</span>
+          <h2 className="mt-5 font-display font-black italic text-white text-5xl md:text-7xl leading-[0.9]">
+            Ubah <span className="script-serif not-italic text-lime">prompt</span>{' '}
+            <span className="italic">jadi profit.</span>
+          </h2>
+          <p className="mt-5 text-white/60 font-body font-light text-base max-w-xl mx-auto">
+            Satu kalimat. Satu brief. Satu sore buat nge-render sekuen iklan yang siap dipasang budget.
+          </p>
+        </div>
+
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+          {/* Prompt card */}
+          <div className="lg:col-span-2 rounded-2xl border border-white/10 bg-ink-800 p-6">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] uppercase tracking-[0.28em] text-white/40">Input · prompt</span>
+              <Sparkles size={14} className="text-lime" />
+            </div>
+            <div className="mt-4 rounded-xl bg-black/50 border border-white/5 p-4 font-mono text-[13px] text-white/85 leading-relaxed">
+              <span className="text-lime">{'>'} </span>
+              Cinematic product showcase sepatu Hoka & kosmetik Glo2Glow, dark background neon lime, kamera dolly-in 7 detik, loopable.
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {['9:16', '16:9', '1:1', '3.2GB render', '4K'].map((t) =>
+              <span key={t} className="text-[11px] uppercase tracking-wider border border-white/15 text-white/70 rounded-full px-2.5 py-1 font-body">{t}</span>
+              )}
+            </div>
+          </div>
+
+          {/* Arrow / pipeline */}
+          <div className="lg:col-span-1 flex items-center justify-center py-2">
+            <div className="flex lg:flex-col items-center gap-2 text-lime">
+              <div className="font-display italic font-black text-xl">render</div>
+              <ArrowRight size={28} className="rotate-0 lg:rotate-90" />
+            </div>
+          </div>
+
+          {/* Output cards */}
+          <div className="lg:col-span-2 grid grid-cols-2 gap-4">
+            {[
+            { t: 'Hook 0-3s', c: 'tile-lime', sub: 'Face-cam AI' },
+            { t: 'Product', c: 'tile-dark', sub: 'Dolly-in' },
+            { t: 'Benefit', c: 'tile-dark', sub: 'Split-screen' },
+            { t: 'CTA', c: 'tile-lime', sub: 'Neon outro' }].
+            map((o, i) =>
+            <div key={i} className={`float-${['a', 'b', 'c', 'a'][i]} rounded-2xl aspect-[4/5] relative overflow-hidden border border-white/10 ${o.c}`}>
+                <div className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.25em] font-body font-semibold" style={{ color: o.c === 'tile-lime' ? '#050607' : 'rgba(255,255,255,0.7)' }}>{o.sub}</div>
+                <div className="absolute bottom-3 left-3 font-display font-black italic text-xl leading-none" style={{ color: o.c === 'tile-lime' ? '#050607' : '#fff' }}>{o.t}</div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ─── What's inside (e-Book) ─────────────────────────────────────────────
+function InsideEbook() {
+  const chapters = [
+  { n: '01', t: 'Dasar prompt buat iklan yang ngejual', b: 'Anatomy of a high-converting AI prompt — hook, benefit, CTA.' },
+  { n: '02', t: 'Visual direction: dark, neon, cinematic', b: 'Palette, lighting, dan referensi yang bikin output terlihat mahal.' },
+  { n: '03', t: 'Product staging: cart, flatlay, studio', b: 'Tiga komposisi andalan yang bisa dipakai lintas kategori.' },
+  { n: '04', t: 'AI voiceover + sync caption', b: 'Tools gratis & berbayar, preset suara yang dipakai Egar.' },
+  { n: '05', t: 'Edit cepat 20 menit', b: 'Workflow CapCut / Premiere — template proyek disertakan.' },
+  { n: '06', t: 'Distribusi & pixel tracking', b: 'Upload plan Meta, TikTok, Shopee Ads — angka yang diukur.' }];
+
+  return (
+    <section data-screen-label="04 Inside" className="relative section-bg px-6 md:px-10 py-24 md:py-32 border-t border-white/5">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-12 gap-10 items-end">
+          <div className="col-span-12 md:col-span-7">
+            <span className="inline-block text-[11px] uppercase tracking-[0.28em] text-lime font-body font-semibold">// Daftar isi</span>
+            <h2 className="mt-5 font-display font-black italic text-white text-5xl md:text-7xl leading-[0.9]">
+              <span className="italic">6 bab.</span> <span className="text-lime">Ngga ada filler.</span>
+            </h2>
+          </div>
+          <div className="col-span-12 md:col-span-5">
+            <p className="text-white/60 font-body font-light text-base">
+              Disusun biar bisa dieksekusi hari itu juga. Setiap bab ada worksheet,
+              prompt siap pakai, dan contoh output — bukan teori doang.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-14 border-t border-white/10">
+          {chapters.map((c) =>
+          <div key={c.n} className="grid grid-cols-12 gap-4 py-6 border-b border-white/10 items-baseline group hover:bg-white/[0.02] transition-colors px-2">
+              <div className="col-span-2 md:col-span-1 font-display font-black italic text-lime text-3xl md:text-4xl leading-none">{c.n}</div>
+              <div className="col-span-10 md:col-span-5 font-display font-black italic text-white text-2xl md:text-3xl leading-tight">{c.t}</div>
+              <div className="hidden md:block md:col-span-5 text-white/60 font-body font-light text-sm leading-relaxed">{c.b}</div>
+              <div className="hidden md:flex md:col-span-1 justify-end text-white/40 group-hover:text-lime transition-colors">
+                <ArrowUpRight size={18} />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ─── Social proof / testimonials ─────────────────────────────────────────
+function Testimonials() {
+  const quotes = [
+  { q: 'Dari zero, minggu ke-2 udah closing Rp 14 juta dari campaign TikTok pake workflow ini.', n: 'Dimas R.', r: 'Founder, Kopi Kamari' },
+  { q: 'Client ku kaget ROAS naik 3.4x padahal tim cuma berdua. Template promptnya gokil.', n: 'Laras A.', r: 'Growth Lead, Pelita Studio' },
+  { q: 'Akhirnya bisa bikin iklan sendiri tanpa harus nunggu editor. Sehari bisa produksi 4 ad.', n: 'Yoga P.', r: 'Owner, Rakit Apparel' }];
+
+  return (
+    <section data-screen-label="05 Testi" className="relative section-bg px-6 md:px-10 py-24 md:py-32 border-t border-white/5">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center">
+          <span className="inline-block text-[11px] uppercase tracking-[0.28em] text-lime font-body font-semibold">// Yang udah cuan duluan</span>
+          <h2 className="mt-5 font-display font-black italic text-white text-5xl md:text-7xl leading-[0.9] max-w-3xl mx-auto">
+            Murid bilang, <span className="text-lime italic">bukan aku.</span>
+          </h2>
+        </div>
+
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-5">
+          {quotes.map((t, i) =>
+          <div key={i} className="rounded-2xl border border-white/10 bg-ink-800 p-7 flex flex-col">
+              <div className="text-lime font-display font-black italic text-5xl leading-none">&ldquo;</div>
+              <p className="mt-1 text-white/85 font-body font-light text-base italic leading-relaxed">{t.q}</p>
+              <div className="mt-auto pt-6 border-t border-white/10">
+                <div className="font-body font-semibold text-white text-sm">{t.n}</div>
+                <div className="text-white/50 font-body text-xs mt-0.5">{t.r}</div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ─── Pricing ─────────────────────────────────────────────────────────────
+// ─── Countdown Timer ─────────────────────────────────────────────────────
+function Countdown() {
+  const DURATION = 10 * 60; // 10 minutes in seconds
+  const [secs, setSecs] = useState(() => {
+    const saved = sessionStorage.getItem('cd_end');
+    if (saved) {
+      const remaining = Math.floor((parseInt(saved) - Date.now()) / 1000);
+      return remaining > 0 ? remaining : DURATION;
+    }
+    const end = Date.now() + DURATION * 1000;
+    sessionStorage.setItem('cd_end', end.toString());
+    return DURATION;
+  });
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setSecs(s => {
+        if (s <= 1) {
+          // Reset when reaches 0
+          const end = Date.now() + DURATION * 1000;
+          sessionStorage.setItem('cd_end', end.toString());
+          return DURATION;
+        }
+        return s - 1;
+      });
+    }, 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  const m = String(Math.floor(secs / 60)).padStart(2, '0');
+  const s = String(secs % 60).padStart(2, '0');
+  const pct = ((DURATION - secs) / DURATION) * 100;
+
+  return (
+    <div className="mb-8 rounded-2xl border border-lime/30 bg-black/40 p-5 overflow-hidden relative">
+      {/* Progress bar */}
+      <div className="absolute bottom-0 left-0 h-0.5 bg-lime/20 w-full">
+        <div className="h-full bg-lime transition-all duration-1000" style={{ width: `${100 - pct}%` }} />
+      </div>
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-white/40 font-body mb-1">⚡ Harga spesial berakhir dalam</div>
+          <div className="font-display font-black italic text-white flex items-baseline gap-1" style={{ fontSize: '42px', lineHeight: 1 }}>
+            <span className="text-lime lime-glow">{m}</span>
+            <span className="text-white/40 text-2xl">:</span>
+            <span className="text-lime lime-glow">{s}</span>
+          </div>
+          <div className="text-[10px] text-white/30 font-body mt-1">menit &nbsp;·&nbsp; detik</div>
+        </div>
+        <div className="text-right">
+          <div className="text-[11px] uppercase tracking-widest text-white/40 font-body mb-1">Sisa harga</div>
+          <div className="font-display font-black italic text-white/40 line-through text-xl">Rp 99.000</div>
+          <div className="font-display font-black italic text-lime lime-glow text-3xl">Rp 49.000</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Pricing() {
+  const features = [
+  'e-Book 120+ halaman, format PDF + EPUB',
+  '35 prompt siap pakai (FnB, fashion, skincare, digital)',
+  'Template proyek CapCut & Premiere',
+  'Akses grup Telegram murid',
+  'Update lifetime — versi 2026 & seterusnya',
+  'Bonus: preset voiceover & sound pack'];
+
+  return (
+    <section data-screen-label="06 Pricing" className="relative section-bg px-6 md:px-10 py-24 md:py-32 border-t border-white/5">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center">
+          <span className="inline-block text-[11px] uppercase tracking-[0.28em] text-lime font-body font-semibold">// Harga perkenalan</span>
+          <h2 className="mt-5 font-display font-black italic text-white text-5xl md:text-7xl leading-[0.9]">
+            Sekali bayar. <span className="text-lime italic">Seumur hidup.</span>
+          </h2>
+        </div>
+
+        <div className="mt-14 relative rounded-[28px] border border-lime/40 bg-ink-800 p-8 md:p-12 overflow-hidden">
+          <div className="absolute -top-16 -right-16 w-72 h-72 rounded-full" style={{ background: 'radial-gradient(circle, rgba(198,255,61,0.25), transparent 70%)' }} />
+          <div className="relative grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div>
+              <Countdown />
+              <div className="flex items-baseline gap-3">
+                <span className="text-white/40 line-through font-display italic text-2xl">Rp 99.000</span>
+                <span className="bg-lime text-ink-900 text-[11px] font-body font-bold uppercase tracking-wider px-2 py-1 rounded-full">Hemat 51%</span>
+              </div>
+              <div className="mt-3 font-display font-black italic text-white leading-none" style={{ fontSize: 'clamp(56px, 9vw, 120px)' }}>
+                <span className="text-lime lime-glow">Rp 49</span><span className="text-white/70 text-5xl align-top">rb</span>
+              </div>
+              <p className="mt-4 text-white/60 font-body font-light text-sm max-w-sm">
+                Termasuk semua update edisi berikutnya. Tanpa langganan, tanpa biaya tersembunyi.
+              </p>
+
+              <a href="https://lynk.id/egarmasagi?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" className="lime-button-glow mt-8 inline-flex items-center gap-2 bg-lime text-ink-900 font-display font-extrabold uppercase tracking-wide rounded-full px-7 py-3.5 whitespace-nowrap hover:brightness-110 transition">
+                Checkout sekarang <ArrowUpRight size={16} />
+              </a>
+              <div className="mt-3 text-[11px] uppercase tracking-[0.25em] text-white/40 font-body">Garansi 7 hari uang kembali</div>
+            </div>
+
+            <ul className="space-y-3">
+              {features.map((f) =>
+              <li key={f} className="flex items-start gap-3 text-white/85 font-body text-sm">
+                  <span className="mt-0.5 w-5 h-5 rounded-full bg-lime/20 text-lime flex items-center justify-center shrink-0"><Check size={12} /></span>
+                  {f}
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ─── FAQ ─────────────────────────────────────────────────────────────────
+function FAQ() {
+  const [open, setOpen] = useState(0);
+  const q = [
+  ['Aku pemula banget, bisa ngikutin?', 'Bisa. Semua bab disusun asumsi nol. Prompt, software, workflow dijelasin ulang tiap bab pertama.'],
+  ['Software apa aja yang dipakai?', 'Bebas. Contoh utama pakai CapCut + Runway/Sora + ElevenLabs. Disertakan alternatif gratis.'],
+  ['Berapa lama akses?', 'Lifetime. Termasuk semua update edisi berikutnya tanpa biaya tambahan.'],
+  ['Cocok untuk niche apa aja?', 'Retail fisik, skincare, F&B, jasa digital, course, SaaS lokal. Template dikurasi per kategori.']];
+
+  return (
+    <section data-screen-label="07 FAQ" className="relative section-bg px-6 md:px-10 py-24 md:py-32 border-t border-white/5">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center">
+          <span className="inline-block text-[11px] uppercase tracking-[0.28em] text-lime font-body font-semibold">// FAQ</span>
+          <h2 className="mt-5 font-display font-black italic text-white text-4xl md:text-6xl leading-[0.9]">
+            Masih ragu? <span className="text-lime italic">Wajar.</span>
+          </h2>
+        </div>
+
+        <div className="mt-12 border-t border-white/10">
+          {q.map(([qq, aa], i) =>
+          <div key={i} className="border-b border-white/10">
+              <button onClick={() => setOpen(open === i ? -1 : i)}
+            className="w-full flex items-center justify-between gap-6 py-6 text-left">
+                <span className="font-display font-black italic text-white text-2xl md:text-3xl leading-tight">{qq}</span>
+                <span className={`w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/70 shrink-0 transition-transform ${open === i ? 'rotate-45 bg-lime text-ink-900 border-lime' : ''}`}>
+                  <svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
+                </span>
+              </button>
+              <div className={`grid transition-[grid-template-rows] duration-300 ${open === i ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                <div className="overflow-hidden">
+                  <p className="pb-6 pr-14 text-white/60 font-body font-light text-base leading-relaxed">{aa}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+// ─── Footer / final CTA ──────────────────────────────────────────────────
+function Footer() {
+  const socials = [
+  { I: Instagram, t: '@egarmasagi' },
+  { I: Facebook, t: 'Egar Masagi' },
+  { I: TikTok, t: '@egarmasagi' },
+  { I: Youtube, t: 'Aragi Creative' }];
+
+  return (
+    <footer data-screen-label="08 Footer" className="relative section-bg px-6 md:px-10 pt-24 md:pt-32 pb-8 border-t border-white/5">
+      <div className="max-w-6xl mx-auto">
+        {/* Giant CTA */}
+        <div className="text-center">
+          <h2 className="font-display font-black italic text-white leading-[0.86]"
+          style={{ fontSize: 'clamp(60px, 11vw, 180px)' }}>
+            <span className="block text-lime lime-glow">SIAP</span>
+            <span className="block">jadi mesin cuan?</span>
+          </h2>
+          <a href="https://lynk.id/egarmasagi?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" className="lime-button-glow mt-10 inline-flex items-center gap-2 bg-lime text-ink-900 font-display font-extrabold uppercase tracking-wide rounded-full px-8 py-4 whitespace-nowrap text-base hover:brightness-110 transition">
+            Mulai 20 menit dari sekarang <ArrowUpRight size={18} />
+          </a>
+        </div>
+
+        {/* Social bar (matches cover) */}
+        <div className="mt-24 relative rounded-full bg-lime text-ink-900 px-6 md:px-8 py-4 md:py-5 flex items-center gap-4 md:gap-6 overflow-hidden">
+          <div className="flex items-center gap-3 md:gap-4">
+            {socials.slice(0, 4).map(({ I }, i) =>
+            <span key={i} className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-ink-900 text-lime flex items-center justify-center">
+                <I size={16} />
+              </span>
+            )}
+          </div>
+          <div className="font-display font-black italic text-2xl md:text-4xl lg:text-5xl tracking-tight">
+            @egarmasagi
+          </div>
+          <div className="ml-auto font-display font-black italic text-ink-900/80 text-4xl md:text-6xl lg:text-7xl leading-none">
+            2026
+          </div>
+        </div>
+
+        {/* Legal row */}
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 text-white/40 text-xs font-body">
+          <div>© 2026 Aragi Creative · by Egar Masagi</div>
+          <div className="flex gap-6">
+            <a href="#" className="hover:text-white/80">Kebijakan Privasi</a>
+            <a href="#" className="hover:text-white/80">Syarat & Ketentuan</a>
+            <a href="#" className="hover:text-white/80">Kontak</a>
+          </div>
+        </div>
+      </div>
+    </footer>);
+
+}
+
+// ─── App ─────────────────────────────────────────────────────────────────
+function App() {
+  return (
+    <div className="bg-ink-900">
+      <Hero />
+      <ValueStrip />
+      <PromptToProfit />
+      <InsideEbook />
+      <Testimonials />
+      <Pricing />
+      <FAQ />
+      <Footer />
+    </div>);
+
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+
+</body>
+</html>
